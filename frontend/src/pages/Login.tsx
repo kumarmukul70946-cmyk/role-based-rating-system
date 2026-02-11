@@ -23,7 +23,7 @@ const Login = () => {
             else navigate('/stores');
         } catch (err: any) {
             if (!err.response) {
-                setError('Network Error: Cannot reach the authentication server. Please check your VITE_API_URL configuration.');
+                setError('Network Error [V2.1]: Cannot reach the authentication server. Ensure your DATABASE_URL is set in Vercel.');
             } else {
                 setError(err.response?.data?.message || 'Authentication Failed');
             }
