@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+  OWNER
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(60)
+  email         String    @unique @db.VarChar(255)
+  password_hash String
+  address       String?   @db.VarChar(400)
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  stores        Store[]   // If user is OWNER
+  ratings       Rating[]  // If user is a rater
+
+  @@index([role])
+  @@index([createdAt])
+  @@map("users")
+}
+
+model Store {
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(120)
+  email         String    @unique @db.VarChar(255)
+  address       String    @db.VarChar(400)
+  ownerUserId   String?   @map("owner_user_id") // Nullable if unassigned
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  owner         User?     @relation(fields: [ownerUserId], references: [id])
+  ratings       Rating[]
+
+  // Indexes for search
+  @@index([name])
+  @@index([address])
+  @@index([email])
+  @@index([createdAt])
+  @@map("stores")
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  storeId   String   @map("store_id")
+  userId    String   @map("user_id")
+  rating    Int      // 1-5 validation handled in app logic or trigger/check constraint (prisma doesn't do check constraints natively easily without raw sql migration)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  store     Store    @relation(fields: [storeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  // Unique constraint: One rating per user per store
+  @@unique([storeId, userId])
+  @@index([storeId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("ratings")
+}
