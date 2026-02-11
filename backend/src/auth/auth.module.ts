@@ -16,10 +16,17 @@ import { RolesGuard } from './roles.guard';
         ConfigModule, // Ensure ConfigService is available
         JwtModule.registerAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                secret: configService.get<string>('JWT_SECRET'),
-                signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') || '1d' },
-            }),
+            useFactory: async (configService: ConfigService) => {
+                const envSecret = configService.get<string>('JWT_SECRET');
+                const secret = envSecret || 'dev_insecure_secret_change_me';
+                if (!envSecret) {
+                    console.warn('JWT_SECRET not set. Using insecure default; set JWT_SECRET in production.');
+                }
+                return {
+                    secret,
+                    signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') || '1d' },
+                };
+            },
             inject: [ConfigService],
         }),
     ],
