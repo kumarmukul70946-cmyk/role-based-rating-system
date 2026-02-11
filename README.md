@@ -68,6 +68,16 @@ npm install
 npm run dev             # Launch dev server at http://localhost:5173
 ```
 
+#### Frontend Environment
+
+Create `frontend/.env` (or set it in your hosting provider) to point the UI to your backend:
+
+```env
+VITE_API_URL="http://localhost:3000"
+```
+
+In production, set `VITE_API_URL` to your public backend URL before running the frontend build.
+
 ---
 
 ## 🔐 Default Access Protocols (Seeded)
@@ -96,3 +106,18 @@ npm run dev             # Launch dev server at http://localhost:5173
 
 ---
 *Created for the FullStack Intern Coding Challenge.*
+
+## 🚢 Non-Vercel Deployment (Simple)
+
+**Backend**
+1. `cd backend`
+2. `npm install`
+3. `npm run build`
+4. `npm run start:prod` (serves API on port 3000 by default)
+
+**Frontend**
+1. `cd frontend`
+2. Set `VITE_API_URL` to your backend URL
+3. `npm install`
+4. `npm run build`
+5. Host `frontend/dist` with any static file server (Nginx, Apache, Netlify, S3, etc.)

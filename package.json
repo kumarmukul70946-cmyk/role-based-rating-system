@@ -1,7 +1,7 @@
 {
     "name": "role-based-rating-system",
     "version": "1.0.0",
-    "main": "api/index.ts",
+    "main": "backend/src/main.ts",
     "dependencies": {
         "@nestjs/common": "^10.0.0",
         "@nestjs/config": "^3.0.0",
