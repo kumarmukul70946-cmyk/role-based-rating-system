@@ -15,7 +15,11 @@ const Register = () => {
             await api.post('/auth/register', data);
             navigate('/login');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Registration failed');
+            if (!err.response) {
+                setError('Network Error [V2.1-REG]: Cannot reach the server. Ensure DATABASE_URL is correct.');
+            } else {
+                setError(err.response?.data?.message || 'Registration failed');
+            }
         }
     };
 

@@ -21,7 +21,7 @@ export async function bootstrap(): Promise<any> {
             }));
 
             // Prefix all routes with /api to match Vercel routing
-            app.setGlobalPrefix('api');
+            // app.setGlobalPrefix('api'); 
 
             console.log('Initializing app...');
             await app.init();
