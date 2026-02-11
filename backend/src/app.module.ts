@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { StoresModule } from './stores/stores.module';
 import { AdminModule } from './admin/admin.module';
 import { OwnerModule } from './owner/owner.module';
+import { HealthController } from './health.controller';
 
 @Module({
     imports: [
@@ -18,5 +19,6 @@ import { OwnerModule } from './owner/owner.module';
         AdminModule,
         OwnerModule,
     ],
+    controllers: [HealthController],
 })
 export class AppModule { }

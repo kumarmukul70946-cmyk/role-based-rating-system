@@ -22,7 +22,11 @@ const Login = () => {
             else if (res.data.user.role === 'OWNER') navigate('/owner/dashboard');
             else navigate('/stores');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Connection Error: Protocol Timeout');
+            if (!err.response) {
+                setError('Network Error: Cannot reach the authentication server. Please check your VITE_API_URL configuration.');
+            } else {
+                setError(err.response?.data?.message || 'Authentication Failed');
+            }
         }
     };
 

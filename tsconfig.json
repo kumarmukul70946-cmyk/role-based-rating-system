@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ESNext",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "baseUrl": ".",
+        "rootDir": ".",
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        "api/**/*",
+        "backend/src/**/*"
+    ]
+}

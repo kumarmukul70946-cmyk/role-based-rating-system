@@ -1,9 +1,19 @@
 {
-    "buildCommand": "cd frontend && npm install && npm run build",
+    "version": 2,
+    "buildCommand": "cd backend && npx prisma generate --schema=./prisma/schema.prisma && cd ../frontend && npm install && npm run build",
     "outputDirectory": "frontend/dist",
+    "functions": {
+        "api/**/*.ts": {
+            "maxDuration": 20
+        }
+    },
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/api/:path*",
+            "destination": "/api/index.ts"
+        },
+        {
+            "source": "/((?!api/).*)",
             "destination": "/index.html"
         }
     ]
